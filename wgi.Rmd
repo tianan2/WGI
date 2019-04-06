@@ -1,0 +1,18 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+library(tidyverse)
+library(readxl)
+library(haven)
+
+df <- read_dta("wgidataset_stata/wgidataset.dta")
+
+```
+
