@@ -11,8 +11,28 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readxl)
 library(haven)
+theme_set(theme_light())
 
-df <- read_dta("wgidataset_stata/wgidataset.dta")
+wgi <- read_dta("wgidataset_stata/wgidataset.dta")
+polity <- read_excel("p4v2017.xls") %>% rename(countryname = country)
+
+```
+
+```{r}
+wgi_polity <- wgi %>% inner_join(polity, by = c("countryname", "year")) 
+
+wgi_polity %>% 
+  select(year, vae, pve, gee, rqe, rle, cce, polity2) %>% 
+  gather(metric, value, -year, -polity2) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  filter(year == 2017) %>% 
+  ggplot(aes(polity2, value, color = regime)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ metric)
+```
+
+```{r}
 
 ```
 
