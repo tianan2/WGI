@@ -20,6 +20,7 @@ polity <- read_excel("p4v2017.xls") %>% rename(countryname = country)
 
 ```{r}
 wgi_polity <- wgi %>% inner_join(polity, by = c("countryname", "year")) 
+china <- wgi_polity %>% filter(year == 2017, countryname == "China") 
 
 wgi_polity %>% 
   select(year, vae, pve, gee, rqe, rle, cce, polity2) %>% 
@@ -27,12 +28,101 @@ wgi_polity %>%
   mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
   filter(year == 2017) %>% 
   ggplot(aes(polity2, value, color = regime)) +
-  geom_point() +
+  geom_point() + 
   geom_smooth(method = "lm", se = FALSE) +
   facet_wrap(~ metric)
+
 ```
 
-```{r}
+## Government effectiveness
 
+```{r}
+library(ggrepel)
+
+wgi_polity %>% 
+  filter(year == 2017) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  ggplot(aes(polity2, gee)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_label_repel(data = china, aes(polity2, gee, label = countryname), 
+                   box.padding   = 0.35, 
+                   point.padding = 0.5,
+                   segment.color = 'grey50')
+```
+
+## Rule of law 
+
+```{r}
+wgi_polity %>% 
+  filter(year == 2017) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  ggplot(aes(polity2, rle)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_label_repel(data = china, aes(polity2, rle, label = countryname), 
+                   box.padding   = 0.35, 
+                   point.padding = 0.5,
+                   segment.color = 'grey50')
+```
+
+## Voice and accountability 
+
+```{r}
+wgi_polity %>% 
+  filter(year == 2017) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  ggplot(aes(polity2, vae)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_label_repel(data = china, aes(polity2, vae, label = countryname), 
+                   box.padding   = 0.35, 
+                   point.padding = 0.5,
+                   segment.color = 'grey50')
+```
+
+## Political stability and absence of violence
+
+```{r}
+wgi_polity %>% 
+  filter(year == 2017) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  ggplot(aes(polity2, pve)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_label_repel(data = china, aes(polity2, pve, label = countryname), 
+                   box.padding   = 0.35, 
+                   point.padding = 0.5,
+                   segment.color = 'grey50')
+```
+
+## Regulatory quality
+
+```{r}
+wgi_polity %>% 
+  filter(year == 2017) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  ggplot(aes(polity2, rqe)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_label_repel(data = china, aes(polity2, rqe, label = countryname), 
+                   box.padding   = 0.35, 
+                   point.padding = 0.5,
+                   segment.color = 'grey50')
+```
+
+## Control of corruption
+
+```{r}
+wgi_polity %>% 
+  filter(year == 2017) %>% 
+  mutate(regime = ifelse(polity2 > 5, "democracy", "autocrary")) %>% 
+  ggplot(aes(polity2, cce)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_label_repel(data = china, aes(polity2, cce, label = countryname), 
+                   box.padding   = 0.35, 
+                   point.padding = 0.5,
+                   segment.color = 'grey50')
 ```
 
