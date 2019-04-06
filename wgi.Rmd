@@ -48,7 +48,9 @@ wgi_polity %>%
   geom_label_repel(data = china, aes(polity2, gee, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
-                   segment.color = 'grey50')
+                   segment.color = 'grey50') +
+  labs(x = "POLITY IV", 
+       y = "Government effectiveness")
 ```
 
 ## Rule of law 
@@ -63,7 +65,9 @@ wgi_polity %>%
   geom_label_repel(data = china, aes(polity2, rle, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
-                   segment.color = 'grey50')
+                   segment.color = 'grey50') + 
+  labs(x = "POLITY IV", 
+       y = "Rule of law")
 ```
 
 ## Voice and accountability 
@@ -78,7 +82,9 @@ wgi_polity %>%
   geom_label_repel(data = china, aes(polity2, vae, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
-                   segment.color = 'grey50')
+                   segment.color = 'grey50') +
+  labs(x = "POLITY IV", 
+       y = "Voice and accountability")
 ```
 
 ## Political stability and absence of violence
@@ -93,7 +99,9 @@ wgi_polity %>%
   geom_label_repel(data = china, aes(polity2, pve, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
-                   segment.color = 'grey50')
+                   segment.color = 'grey50') + 
+  labs(x = "POLITY IV", 
+       y = "Political stability")
 ```
 
 ## Regulatory quality
@@ -108,7 +116,9 @@ wgi_polity %>%
   geom_label_repel(data = china, aes(polity2, rqe, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
-                   segment.color = 'grey50')
+                   segment.color = 'grey50') +
+  labs(x = "POLITY IV", 
+       y = "Regulatory quality")
 ```
 
 ## Control of corruption
@@ -123,6 +133,8 @@ wgi_polity %>%
   geom_label_repel(data = china, aes(polity2, cce, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
-                   segment.color = 'grey50')
+                   segment.color = 'grey50') + 
+  labs(x = "POLITY IV", 
+       y = "Corruption control")
 ```
 
