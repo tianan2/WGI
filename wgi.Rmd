@@ -1,6 +1,8 @@
 ---
 title: "Untitled"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -14,13 +16,23 @@ library(haven)
 theme_set(theme_light())
 
 wgi <- read_dta("wgidataset_stata/wgidataset.dta")
-polity <- read_excel("p4v2017.xls") %>% rename(countryname = country)
+polity <- read_excel("p4v2017.xls") %>% rename(countryname = country) 
+polity$countryname <- fct_recode(polity$countryname, 
+                                 "Korea, Dem. Rep." = "Korea, Dep. Rep.",
+                                 "Korea, Rep." = "Korea South", 
+                                 "Russian Federation" = "Russia")
 
 ```
 
 ```{r}
 wgi_polity <- wgi %>% inner_join(polity, by = c("countryname", "year")) 
-china <- wgi_polity %>% filter(year == 2017, countryname == "China") 
+countries <- wgi_polity %>% filter(year == 2017, 
+                                   countryname %in% c("China", 
+                                                      "Japan", 
+                                                      "Russian Federation", 
+                                                      "Korea, Dem. Rep.", 
+                                                      "United States")) 
+
 
 wgi_polity %>% 
   select(year, vae, pve, gee, rqe, rle, cce, polity2) %>% 
@@ -45,7 +57,7 @@ wgi_polity %>%
   ggplot(aes(polity2, gee)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  geom_label_repel(data = china, aes(polity2, gee, label = countryname), 
+  geom_label_repel(data = countries, aes(polity2, gee, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
                    segment.color = 'grey50') +
@@ -62,7 +74,7 @@ wgi_polity %>%
   ggplot(aes(polity2, rle)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  geom_label_repel(data = china, aes(polity2, rle, label = countryname), 
+  geom_label_repel(data = countries, aes(polity2, rle, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
                    segment.color = 'grey50') + 
@@ -79,7 +91,7 @@ wgi_polity %>%
   ggplot(aes(polity2, vae)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  geom_label_repel(data = china, aes(polity2, vae, label = countryname), 
+  geom_label_repel(data = countries, aes(polity2, vae, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
                    segment.color = 'grey50') +
@@ -96,7 +108,7 @@ wgi_polity %>%
   ggplot(aes(polity2, pve)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  geom_label_repel(data = china, aes(polity2, pve, label = countryname), 
+  geom_label_repel(data = countries, aes(polity2, pve, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
                    segment.color = 'grey50') + 
@@ -113,7 +125,7 @@ wgi_polity %>%
   ggplot(aes(polity2, rqe)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  geom_label_repel(data = china, aes(polity2, rqe, label = countryname), 
+  geom_label_repel(data = countries, aes(polity2, rqe, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
                    segment.color = 'grey50') +
@@ -130,7 +142,7 @@ wgi_polity %>%
   ggplot(aes(polity2, cce)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  geom_label_repel(data = china, aes(polity2, cce, label = countryname), 
+  geom_label_repel(data = countries, aes(polity2, cce, label = countryname), 
                    box.padding   = 0.35, 
                    point.padding = 0.5,
                    segment.color = 'grey50') + 
